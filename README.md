@@ -20,7 +20,7 @@ Clone this repo, and run `npm install` from inside it. The repo already includes
         </div>
     ```
 
-    </details
+    </details>
 
 
 ### In `src/Account.js`
@@ -59,7 +59,7 @@ Clone this repo, and run `npm install` from inside it. The repo already includes
 
     </details>
 
-<img src="https://media.giphy.com/media/26xBMuHu0ZFngH7Ta/giphy.gif">
+<img src="https://media.giphy.com/media/26xBMuHu0ZFngH7Ta/giphy.gif" />
 
 
     <details>
@@ -107,7 +107,6 @@ Clone this repo, and run `npm install` from inside it. The repo already includes
 6. When the `Withdraw` button is clicked, you should deduct the amount entered in the text field to the balance.  **You should not be able to withdraw more than the current balance**
 
     <details>
-
     <summary>Click for hint:</summary>
 
       Try to mirror the functionality of the Deposit function above.
