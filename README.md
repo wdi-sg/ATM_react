@@ -5,8 +5,6 @@ Let's make an ATM app! You will practice the dark art of manipulating components
 <img width="992" alt="atm" src="https://cloud.githubusercontent.com/assets/4304660/24376818/18c39a82-12f2-11e7-81e7-af618c22b3ed.png">
 
 
-Clone this repo, and run `npm install` from inside it. The repo already includes a partial React app. To launch the app, run `npm start`.
-
 ### In `src/App.js`:
 1. Pass a `name` property to each `Account` component, one for "Checking", the other for "Savings".  These will be used and accessed as `props`for our component. **Remember**: Props are immutable, that is, once they are declared, they cannot be changed while the application is running.
 
