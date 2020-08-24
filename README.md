@@ -44,6 +44,7 @@ Let's make an ATM app! You will practice the dark art of manipulating components
 
 
 3. Add a `balance` property to `state`, and set to 0 initially, in the Account component.
+
     <details>
     <summary>Click for code:</summary>
 
@@ -57,8 +58,7 @@ Let's make an ATM app! You will practice the dark art of manipulating components
 
     </details>
 
-<img src="https://media.giphy.com/media/26xBMuHu0ZFngH7Ta/giphy.gif" />
-
+    <img src="https://media.giphy.com/media/26xBMuHu0ZFngH7Ta/giphy.gif" />
 
     <details>
     <summary>Hint:</summary>
