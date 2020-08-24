@@ -1,356 +1,150 @@
-[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
+# ![GA LOGO](https://camo.githubusercontent.com/6ce15b81c1f06d716d753a61f5db22375fa684da/68747470733a2f2f67612d646173682e73332e616d617a6f6e6177732e636f6d2f70726f64756374696f6e2f6173736574732f6c6f676f2d39663838616536633963333837313639306533333238306663663535376633332e706e67) React ATM application
 
-# React Components Props
+Let's make an ATM app! You will practice the dark art of manipulating components in real time.  You will create two components of the same class which will work independently of each other.  
 
-The basic unit you'll be working with in ReactJS is a component. Components are
-pieces of our application that we can define once and reuse all over the place.
+<img width="992" alt="atm" src="https://cloud.githubusercontent.com/assets/4304660/24376818/18c39a82-12f2-11e7-81e7-af618c22b3ed.png">
 
-## Objectives
 
-After this lesson, you will be able to:
+Clone this repo, and run `npm install` from inside it. The repo already includes a partial React app. To launch the app, run `npm start`.
 
-- Describe props and why we need them.
-- Create a component that renders props.
-- Create nested components that pass props.
+### In `src/App.js`:
+1. Pass a `name` property to each `Account` component, one for "Checking", the other for "Savings".  These will be used and accessed as `props`for our component. **Remember**: Props are immutable, that is, once they are declared, they cannot be changed while the application is running.
 
-## Review
+    <details>
+    <summary>Click for code:</summary>
 
-Let's start up our server, and review the code in `src/App.js` and
-`src/Movie.js`. What have we done so far?
+    ```javascript
+        <div>
+          <Account name="Checking"/>
+          <Account name="Savings"/>
+        </div>
+    ```
 
-- Our top level component `App` uses the `Movie` component
-- The `Movie` component renders movie data
+    </details
 
-> Why do our `App` and `Movie` components look different syntactically? Because
-> there are two different ways to declare components in React. For components
-> that have no methods attached to them, we can use arrow functions that return
-> JSX. If we need more complex components, we need to use the `class` syntax.
-> Both our components could actually be arrow functions right now, but we did
-> our `Movie` component the long way to demonstrate that syntax.
 
-## Component Data with Props
+### In `src/Account.js`
 
-What are props? Props are simply arguments passed into a component, as though
-they were arguments to a function. The component can then use this data to
-render something or pass the data on to another component.
+2. Use the property you set in `App.js` to add the name of the account to the `<h2>`.
+    <details>
+    <summary>Click for code:</summary>
 
-The React framework was built to handle data that changes over time. Props allow
-data to flow downward into components from central source (generally, an API),
-without needing any code inside the components that receive props to handle
-changes in this data.
+    ```javascript
+        <div className="account">
+          //this.props.name is referring to the name property we assigned the App component in App.js
+          <h2>{this.props.name}</h2>
+          <div className="balance">$0</div>
+          <input type="text" placeholder="enter an amount" />
+          <input type="button" value="Deposit" />
+          <input type="button" value="Withdrawl" />
+        </div>
+    ```
 
-Components that just render data based on their props are known as "stateless"
-or "functional" components. They're very easy to reason about, because they take
-data and produce markup, without any side effects or internal state. In React,
-we should aim to make as many of our components stateless as possible.
+    </details>
 
-### Code-along: Display multiple movies
-Our movie component isn't very dynamic. It can still only render a pre-determined movie. Let's change that. First, let's hard code an array of movie titles in App.js. Then, we'll iterate through our array, and render one Movie component for each title. To pass the title into the Movie component, we'll need to use "props".
+    Save your work. You should see two components named Checking and Savings.  You're getting there!
 
-First let's add an array of movies to our `App` component.
-```js
-const App = () => {
 
-  const movies = [
-    {
-      id: 1,
-      title: 'Dr. Strangelove'
-    },
-    {
-      id: 2,
-      title: 'Eraserhead'
-    },
-    {
-      id: 3,
-      title: 'Fantastic Mr. Fox'
-    }
-  ]
+3. Add a `balance` property to `state`, and set to 0 initially, in the Account component.
+    <details>
+    <summary>Click for code:</summary>
 
-  return (
-    <div>
-      <h1>Welcome to React!</h1>
-      <Movie />
-    </div>
-  )
-}
-```
+    ```javascript
+        class Account extends Component {
+            constructor(props){
+              super(props)
+              this.state = {
+                balance: 0
+              }
+            }
+        }
+    ```
 
-Then we can iterate through that array and render the `Movie` component for each item in the movie array.
+    </details>
 
-```js
-  return (
-    <div>
-      <h1>Welcome to React!</h1>
-      
-      {movies.map(movie => <Movie />)}
-      
-    </div>
-  )
-}
-```
+<img src="https://media.giphy.com/media/26xBMuHu0ZFngH7Ta/giphy.gif">
 
-Next we need to pass the movie title to our `Movie` component.  We also need to pass a unique `key` so that React can keep track of the components we created inside our loop.
 
-```js
-  return (
-    <div>
-      <h1>Welcome to React!</h1>
-      
-      {movies.map(movie => <Movie key={movie.id} title={movie.title}/>)}
-      
-    </div>
-  )
-}
-```
+4. Set a `ref` property on the text field, which is a callback function to save a reference to that text field in our `Account` object. This is one way we can access the data in the field later when we want to know what values to add/subtract from our account. You can also try to figure out how to do it using the react [form](https://reactjs.org/docs/forms.html) way, which we will be going into depth alot more tomorrow, but if you get blocked go ahead and use the `ref`.
 
-Our `Movie` component is still only rendering the original movie.  We need to adjust the `Movie` component so that it uses the `props` we passed in.
+    <details>
+    <summary>Hint:</summary>
 
-```js
-import React, {Component} from 'react';
+    ```html
+      <input type="text" placeholder="enter an amount" ref={(input) => this.inputBox = input} />
+    ```
 
-class Movie extends Component {
+    </details>
 
-  render () {
+5. When the `Deposit` button is clicked, you should add the amount entered in the text field to the balance
 
-    return (
-      <h1>{this.props.movie.title}</h1>
-    )
-  }
-}
+    <details>
+    <summary>Click for code walkthrough:</summary>
+    a. Add a click handler in your input tags in our JSX return block:
 
-export default Movie
-```
+    ```html
+      <input type="button" value="Deposit" onClick={this.handleDepositClick} />
+    ```
 
-You should now see the title of each movie rendering on the page.
+    b. Define a click handler method within the `Account` class
 
-### Code-along: Passing multiple props to a component
-
-Right now, `Movie` just expects one prop, and that's all we're giving it. Of
-course, we often want components to display more complex information. To do so,
-we can pass multiple props to our component! Let's expand on our movies array
-to add directors and a cast list.
-
-```js
-const movies = [
-  {
-    id: 1,
-    title: 'Dr. Strangelove',
-    director: 'Stanley Kubrick',
-    cast: [
-      'Peter Sellers',
-      'George C. Scott',
-      'Slim Pickens'
-    ]
-  },
-  {
-    id: 2,
-    title: 'Eraserhead',
-    director: 'David Lynch',
-    cast: [
-      'Jack Nance',
-      'Charlotte Stewart',
-      'Jeanne Bates'
-    ]
-  },
-  {
-    id: 3,
-    title: 'Fantastic Mr. Fox',
-    director: 'Wes Anderson',
-    cast: [
-      'George Clooney',
-      'Meryl Streep',
-      'Bill Murray'
-    ]
-  }
-]
-```
-
-Now that we have additional information, let's pass that to the component as
-well. Remember that we'll also have to change the component definition so that
-it is using the new props we passed to it. Also, we have to return a single
-element from the render method, but you can always wrap multiple elements in a
-`div` tag.
-
-> Note: We typically want to pass our props individually, instead of as an
-> object. This helps keep our components consistent and specific. It also
-> prevents us from referring to our props in a manner like
-> `this.props.movie.title` where `this` already refers to an instance of a
-> `Movie` component.
-
-Now we can use this new information as props, just like normal. We'll pass the
-director and entire array of actors through to the movie component. First,
-update your App component:
-
-```jsx
-const App = () => (
-  <div>
-    <h1>Welcome to React!</h1>
-    {movies.map(movie => (
-      <Movie key={movie.id} title={movie.title} cast={movie.cast} director={movie.director}/>
-    ))}
-  </div>
-)
-```
-
-If you check your application afterwards, nothing has changed. Remember, a
-component will just ignore any props it receives that it doesn't use. But, we
-want to use the props! So, second, update your `Movie` class' `render` method
-to return some more JSX.
-
-```jsx
-<div>
-  <h1>{this.props.title}</h1>
-  <p>Directed by {this.props.director}</p>
-  <p>Starring: {this.props.cast}</p>
-</div>
-```
-
-If you check the page now, you'll see React prints the entire array, as that's
-what was passed in. It's a start, but we can improve upon this. Try to iterate
-through that `cast` array and display each actor individually.
-
-## Nested Components with Props
-
-Since we're going to be rendering many actors and they will all share common
-properties, it would be a great time to make another component!
-
-### Using props in a functional component
-
-An Actor component will be pretty simple, it will receive a couple of props to
-render, but won't need any interactivity or logic. That means it's a great use
-case for a functional component, with the arrow function syntax.
-
-However, we haven't seen an example yet of passing props into a functional
-component. To do it, we need to make sure we understand "destructuring", a
-feature added to JS in ES6. Here's an example.
-
-```js
-const me = {
-  name: 'Caleb',
-  favoriteFood: 'Tacos'
-}
-
-// isolating object properties the old way
-const name = me.name
-const favoriteFood = me.favoriteFood
-
-// isolating object properties with destructuring
-const { name } = me
-const { favoriteFood } = me
-```
-
-These two methods of pulling properties out of an object produce the
-same result. The parameters to React functional components usually use
-destructuring.
-
-Instead of this:
-
-```jsx
-const Developer = (props) => (
-  <p>My name is {props.name}</p>
-)
-```
-
-We typically do this:
-
-```jsx
-const Developer = ({ name }) => (
-  <p>My name is {name}</p>
-)
-```
-
-Getting comfortable with this pattern will make it easier to read React
-documentation and tutorials.
-
-### Lab: Create an `Actor` component
-
-Create an `Actor` component that will receive two props: `name`,
-a string representing the actor's full name, and `role`, a string describing
-the character that actor plays in the film. Your component should display this
-information like this:
-
-```text
-Peter Sellers as President Merkin Muffley
-George C. Scott as General Buck Turgidson
-```
-
-Here's some updated data, including roles for each actor.
-
-```js
-const movies = [
-  {
-    id: 1,
-    title: 'Dr. Strangelove',
-    director: 'Stanley Kubrick',
-    cast: [
-      {
-        name: 'Peter Sellers',
-        role: 'President Merkin Muffley'
-      },
-      {
-        name: 'George C. Scott',
-        role: 'General Buck Turgidson'
-      },
-      {
-        name: 'Slim Pickens',
-        role: 'Major T.J. "King" Kong'
+    ```javascript
+      handleDepositClick(e) {
+        // It is good practice to still prevent default behavior
+        e.preventDefault();
+        // set a local variable to the amount entered in the text box.
+        const amount = parseInt(this.inputBox.value);
+        // set a local variable to the new balance based off of the original balance + amount
+        const newBalance = this.state.balance + amount;
+        // set the balance to the newBalance using the setState method (necessary)
+        this.setState({
+          balance: newBalance
+        })
+        // empty out the text box in this component
+        this.inputBox.value = '';
       }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Eraserhead',
-    director: 'David Lynch',
-    cast: [
-      {
-        name: 'Jack Nance',
-        role: 'Henry Spencer'
-      },
-      {
-        name: 'Charlotte Stewart',
-        role: 'Mary X'
-      },
-      {
-        name: 'Jeanne Bates',
-        role: 'Mrs. X'
+    ```
+
+    </details>
+
+
+
+6. When the `Withdraw` button is clicked, you should deduct the amount entered in the text field to the balance.  **You should not be able to withdraw more than the current balance**
+
+    <details>
+
+    <summary>Click for hint:</summary>
+
+      Try to mirror the functionality of the Deposit function above.
+
+    </details>
+
+
+7. If the current balance is 0, you should add a class of `zero` to the `<div className="balance">`. You can complete these computations in the render method, but before the JSX portion is returned.
+    <details>
+    <summary>Click for code walkthrough:</summary>
+        In the Account.js render method:
+
+    ```javascript
+      // set the default class to `balance` for the balanceClass.
+      const balanceClass = 'balance';
+      // if the balance is 0, then add the class zero to balanceClass
+      if (this.state.balance === 0) {
+        balanceClass += ' zero';
       }
-    ]
-  },
-  {
-    id: 3,
-    title: 'Fantastic Mr. Fox',
-    director: 'Wes Anderson',
-    cast: [
-      {
-        name: 'George Clooney',
-        role: 'Mr. Fox'
-      },
-      {
-        name: 'Meryl Streep',
-        role: 'Mrs. Fox'
-      },
-      {
-        name: 'Bill Murray',
-        role: 'Badger'
-      }
-    ]
-  }
-]
-```
+    ```  
 
-Create an `Actor` component, and use it render each actor inside the
-`Movie` component.
+    <p>Replace the hardcoded `balance` class with the balanceClass variable in your return jsx code block:</p>
 
-## Additional Resources
+    ```html
+        <div className={balanceClass}>$0</div>
+    ```
 
-- [Intro to Components](https://generalassembly.wistia.com/medias/h64z7lp1ir)
-- [Returning multiple elements from a single Component using React.Fragment](https://reactjs.org/docs/fragments.html)
-- [React Components and Props](https://reactjs.org/docs/components-and-props.html)
-- [Thinking in React - Steps 1 and 2](https://reactjs.org/docs/thinking-in-react.html)
-- [Component Props | Codecademy](https://www.codecademy.com/courses/react-101/lessons/this-props)
+    </details>
 
-## [License](LICENSE)
-
-1. All content is licensed under a CC­BY­NC­SA 4.0 license.
-1. All software code is licensed under GNU GPLv3. For commercial use or
-   alternative licensing, please contact legal@ga.co.
+#### Bonus: 
+- Handling an edge case
+    - As it stands, our app breaks if we hit Deposit or Withdraw on an empty form. Or if we put letters in there! How can we update our functionality to avoid this problem?
+    - **hint:** Don't assume NaN behaves as you might expect :)
+- Refactor the common code out of handleWithdrawlClick and handleDepositClick into a helper function or two.
+- Create a Transfer form that can transfer funds from Checking to Savings, or Savings to Checking! 
