@@ -51,12 +51,9 @@ Clone this repo, and run `npm install` from inside it. The repo already includes
 
     ```javascript
         class Account extends Component {
-            constructor(props){
-              super(props)
-              this.state = {
+              state = {
                 balance: 0
               }
-            }
         }
     ```
 
@@ -65,25 +62,23 @@ Clone this repo, and run `npm install` from inside it. The repo already includes
 <img src="https://media.giphy.com/media/26xBMuHu0ZFngH7Ta/giphy.gif">
 
 
-4. Set a `ref` property on the text field, which is a callback function to save a reference to that text field in our `Account` object. This is one way we can access the data in the field later when we want to know what values to add/subtract from our account. You can also try to figure out how to do it using the react [form](https://reactjs.org/docs/forms.html) way, which we will be going into depth alot more tomorrow, but if you get blocked go ahead and use the `ref`.
-
     <details>
     <summary>Hint:</summary>
 
     ```html
-      <input type="text" placeholder="enter an amount" ref={(input) => this.inputBox = input} />
+      <input type="text" placeholder="enter an amount" name="input" />
     ```
 
     </details>
 
-5. When the `Deposit` button is clicked, you should add the amount entered in the text field to the balance
+4. When the `Deposit` button is clicked, you should add the amount entered in the text field to the balance
 
     <details>
     <summary>Click for code walkthrough:</summary>
     a. Add a click handler in your input tags in our JSX return block:
 
     ```html
-      <input type="button" value="Deposit" onClick={this.handleDepositClick} />
+      <input type="button" value="Deposit" name="input" onClick={this.handleDepositClick} />
     ```
 
     b. Define a click handler method within the `Account` class
@@ -93,7 +88,7 @@ Clone this repo, and run `npm install` from inside it. The repo already includes
         // It is good practice to still prevent default behavior
         e.preventDefault();
         // set a local variable to the amount entered in the text box.
-        const amount = parseInt(this.inputBox.value);
+        const amount = parseInt(e.target.value);
         // set a local variable to the new balance based off of the original balance + amount
         const newBalance = this.state.balance + amount;
         // set the balance to the newBalance using the setState method (necessary)
@@ -101,7 +96,7 @@ Clone this repo, and run `npm install` from inside it. The repo already includes
           balance: newBalance
         })
         // empty out the text box in this component
-        this.inputBox.value = '';
+    
       }
     ```
 
